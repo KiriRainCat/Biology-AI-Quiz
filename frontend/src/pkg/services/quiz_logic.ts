@@ -21,7 +21,7 @@ export class QuizController {
   countdown: number = COUNTDOWN_DURATION;
   timer?: number;
 
-  showRecordNameDialog: boolean = true;
+  showRecordNameDialog: boolean = false;
 
   /**
    * 初始化，获取题目
