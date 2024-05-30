@@ -9,6 +9,7 @@
 
 server: # 服务器设置
   port: 8005 # 服务器端口
+  encrypt_salt: "awa" # SH265 加密盐
   request_auth: "qwq" # 接口请求鉴权 (Authorization)
 
 postgresql: # PostgreSQL 数据库设置

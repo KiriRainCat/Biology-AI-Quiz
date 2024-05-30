@@ -17,7 +17,7 @@ type service struct {
 }
 
 func (s *service) GenerateQuiz() (list []*question, err error) {
-	response, err := s.llm.Call(context.Background(), "Generate 30 MCQs about Mitosis and Meiosis (Evenly Mixed), with five options for each (Attach the answer index, starting from 0) [Use Json list format, with fields: question, choices, answer]")
+	response, err := s.llm.Call(context.Background(), "Generate 30 MCQs about Mitosis and Meiosis (Evenly Mixed), with 5 options each (Attach answer index, starting from 0) [Use Json list format, with fields: question, choices, answer]")
 	if err != nil {
 		return nil, err
 	}
@@ -26,6 +26,8 @@ func (s *service) GenerateQuiz() (list []*question, err error) {
 	if json.Unmarshal([]byte(strings.ReplaceAll(strings.ReplaceAll(response, "```", ""), "json", "")), &questions) != nil {
 		return nil, err
 	}
+
+	log.Println(response)
 
 	return questions, nil
 }

@@ -8,6 +8,7 @@ type Configuration struct {
 
 type Server struct {
 	Port        string `mapstructure:"port" json:"port,omitempty" yaml:"port"`
+	EncryptSalt string `mapstructure:"encrypt_salt" json:"encrypt_salt" yaml:"encrypt_salt"`
 	RequestAuth string `mapstructure:"request_auth" json:"request_auth" yaml:"request_auth"`
 }
 
