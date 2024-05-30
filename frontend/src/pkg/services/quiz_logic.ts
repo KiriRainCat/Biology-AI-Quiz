@@ -28,6 +28,8 @@ export class QuizController {
    * @returns 是否是本地 localStorage 缓存读取的题目
    */
   public async init(): Promise<boolean> {
+    localStorage.removeItem("prevQuestions");
+
     // 尝试从本地缓存读取未做过的题目
     const questionsStr = localStorage.getItem("questions");
     if (questionsStr && questionsStr.length > 60) {
