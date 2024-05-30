@@ -87,7 +87,11 @@ export class QuizController {
     // 判断是否还有题目，无题则结束
     if (this.currentQuestionIndex >= this.questions.length - 1) {
       clearInterval(this.timer);
-      localStorage.removeItem("questions"); // 清除缓存的题目
+
+      // 清除缓存的题目
+      let questionsStr = localStorage.getItem("questions");
+      localStorage.removeItem("questions");
+      localStorage.setItem("prevQuestions", questionsStr ?? "");
 
       // 询问在 leaderboard 中显示的名称
       this.showRecordNameDialog = true;

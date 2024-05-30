@@ -11,6 +11,7 @@ interface Record {
   passphrase?: string;
   accuracy: number;
   time_taken: number;
+  updated_at?: string;
 }
 
 export type { Question, Record };

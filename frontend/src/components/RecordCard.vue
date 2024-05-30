@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import type { Record } from "@/pkg/services/api_types";
+import type { PropType } from "vue";
+
+defineProps({ record: Object as PropType<Record> });
+</script>
+
+<template>
+  <var-paper elevation="1" radius="6" class="flex gap-6 p-3 bg-cyan-50">
+    <div>{{ record!.name }}</div>
+    <div>{{ record!.accuracy * 100 }}%</div>
+    <div>{{ record!.time_taken }}s</div>
+    <div>{{ new Date(record!.updated_at!).toLocaleString() }}</div>
+  </var-paper>
+</template>

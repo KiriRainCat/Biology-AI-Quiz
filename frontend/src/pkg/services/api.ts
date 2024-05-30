@@ -17,10 +17,10 @@ api.interceptors.response.use(
 
   // 处理错误
   (error) => {
-    router.push("/");
     try {
       if (error.code === "ERR_NETWORK" || error.response.status == 404 || error.response.status == 502) {
         Snackbar({ content: "服务器爆炸啦，也可能是你网炸了 :D", type: "error" });
+        router.push("/");
         return Promise.reject(error);
       }
 
@@ -30,6 +30,7 @@ api.interceptors.response.use(
       }
     } catch (_) {
       Snackbar({ content: `发生未知异常: ${error}`, type: "error" });
+      router.push("/");
       return Promise.reject(error);
     }
   }
@@ -38,7 +39,9 @@ api.interceptors.response.use(
 export default api;
 
 async function getRecords(): Promise<Record[]> {
-  return (await api.get("/records")).data["data"];
+  let list: Record[] = (await api.get("/records")).data["data"];
+  list.sort((a, b) => (a.accuracy > b.accuracy && a.time_taken < b.time_taken ? -1 : 1));
+  return list;
 }
 
 async function addRecord(record: Record): Promise<boolean> {

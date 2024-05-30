@@ -12,4 +12,14 @@ export const routes: Array<RouteRecordRaw> = [
     name: "quiz",
     component: () => import("../../views/QuizView.vue"),
   },
+  {
+    path: "/result",
+    name: "result",
+    component: () => import("../../views/ResultView.vue"),
+  },
+  {
+    path: "/leaderboard",
+    name: "leaderboard",
+    component: () => import("../../views/LeaderboardView.vue"),
+  },
 ];
