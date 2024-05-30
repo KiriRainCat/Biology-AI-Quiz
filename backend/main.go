@@ -14,7 +14,7 @@ import (
 func main() {
 	// Initialization
 	config.Init()
-	// internal.InitDB()
+	internal.InitDB()
 	internal.InitLLM()
 
 	// Create gin-engine and base router-group

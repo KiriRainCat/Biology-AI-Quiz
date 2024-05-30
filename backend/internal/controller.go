@@ -55,7 +55,7 @@ func (*controller) PutRecord(ctx *gin.Context) {
 		return
 	}
 	var storedRecord *record
-	if DB.First(&storedRecord, "name = ?", data.Name).Error == nil {
+	if DB.First(&storedRecord, data.Name).Error == nil {
 		if string(bytes) != storedRecord.Passphrase {
 			res.ParamErrM(ctx, "Passphrase is incorrect")
 			return
