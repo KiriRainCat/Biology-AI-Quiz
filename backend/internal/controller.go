@@ -14,13 +14,32 @@ type controller struct {
 	s *service
 }
 
-func (controller) GenerateQuiz(ctx *gin.Context) {
+func (*controller) GenerateQuiz(ctx *gin.Context) {
 	list, err := s.GenerateQuiz()
 	if err != nil {
 		res.InternalErr(ctx)
 	}
 
 	res.Success(ctx, list)
+}
+
+func (*controller) GetRecord(ctx *gin.Context) {
+	// 校验 REST 参数
+	name := ctx.Param("name")
+	if name == "" {
+		res.ParamErr(ctx)
+		return
+	}
+
+	// 查询记录
+	var record *record
+	if DB.First(&record, name).Error != nil {
+		res.InternalErr(ctx)
+		return
+	}
+
+	// 返回记录
+	res.Success(ctx, record)
 }
 
 func (*controller) GetRecords(ctx *gin.Context) {

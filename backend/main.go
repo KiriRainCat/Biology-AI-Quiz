@@ -44,6 +44,7 @@ func main() {
 	// Register API Routes
 	c := internal.Controller
 	r.GET("/generate-quiz", c.GenerateQuiz)
+	r.GET("/record/:name", c.GetRecord)
 	r.GET("/records", c.GetRecords)
 	r.POST("/record", c.PutRecord)
 
