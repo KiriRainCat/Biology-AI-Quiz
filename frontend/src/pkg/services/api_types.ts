@@ -7,7 +7,7 @@ interface Question {
 
 /** 用户 quiz 结果数据模型 */
 interface Record {
-  name: string;
+  name?: string;
   passphrase?: string;
   accuracy: number;
   time_taken: number;

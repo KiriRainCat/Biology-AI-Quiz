@@ -39,10 +39,13 @@ let form = reactive({ name: localStorage.getItem("name") || "", passphrase: loca
       <template #default>
         <div v-if="prevRecord">
           <div>Previous Record</div>
-          <RecordCard :record="prevRecord" />
+          <RecordCard only-data :record="prevRecord" />
         </div>
 
-        <p>Please enter your name/net-name/nickname to save your score to the leaderboard:</p>
+        <div class="mt-1">Current Record</div>
+        <RecordCard only-data :record="{ accuracy: quiz.numOfCorrect / quiz.questions.length, time_taken: quiz.timeTaken }" />
+
+        <p class="my-3">Please enter your name/net-name/nickname to save your score to the leaderboard:</p>
         <var-input v-model="form.name" autofocus placeholder="Name"></var-input>
         <var-input v-model="form.passphrase" type="password" placeholder="Passphrase"></var-input>
 
