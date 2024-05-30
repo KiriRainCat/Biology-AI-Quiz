@@ -23,7 +23,7 @@ func (s *service) GenerateQuiz() (list []*question, err error) {
 	}
 
 	// 处理 response
-	response = response[strings.Index(response, "["):strings.LastIndex(response, "]")]
+	response = response[strings.Index(response, "[") : strings.LastIndex(response, "]")+1]
 
 	// 将 response 映射到 question 结构
 	var questions []*question
