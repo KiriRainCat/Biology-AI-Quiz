@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 	"stp/internal"
 	"stp/internal/middleware"
@@ -27,19 +26,11 @@ func main() {
 	})
 
 	r := server.Group("/api")
-	r.Use(gin.LoggerWithWriter(os.Stdout, "/api/ping")).
+	r.Use(gin.LoggerWithWriter(os.Stdout)).
 		Use(gin.Recovery()).
 		Use(middleware.Auth.Authenticate)
 
 	//* --------------------------- API Registration --------------------------- *//
-	// PING API
-	r.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"code": http.StatusOK,
-			"msg":  "Pong",
-			"data": nil,
-		})
-	})
 
 	// Register API Routes
 	c := internal.Controller
