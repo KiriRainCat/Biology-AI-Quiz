@@ -76,24 +76,3 @@ onMounted(async () => {
 
 let form = reactive({ name: localStorage.getItem("name") || "", passphrase: localStorage.getItem("passphrase") || "" });
 </script>
-
-<style scoped>
-.neo-morph-1 {
-  box-shadow:
-    6px 6px 18px rgba(0, 0, 0, 0.09),
-    -6px -6px 18px white;
-}
-
-.container {
-  max-width: 400px;
-  border-radius: 25px;
-}
-
-.option {
-  @apply cursor-pointer bg-gray-100 p-1 rounded-lg mb-4;
-}
-
-.option div {
-  @apply transition-colors;
-}
-</style>
