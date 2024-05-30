@@ -29,6 +29,15 @@ func ParamErr(ctx *gin.Context) {
 	})
 }
 
+// 返回 400 状态码，参数错误，自定义消息
+func ParamErrM(ctx *gin.Context, msg string) {
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		"code": http.StatusBadRequest,
+		"msg":  msg,
+		"data": nil,
+	})
+}
+
 // 返回 500 状态码，服务器内部错误
 func InternalErr(ctx *gin.Context) {
 	ctx.JSON(http.StatusInternalServerError, gin.H{
