@@ -31,8 +31,6 @@ func (s *service) GenerateQuiz() (list []*question, err error) {
 		return nil, err
 	}
 
-	log.Println(response)
-
 	return questions, nil
 }
 

@@ -33,7 +33,7 @@ func (*controller) GetRecord(ctx *gin.Context) {
 
 	// 查询记录
 	var record *record
-	if DB.First(&record, name).Error != nil {
+	if DB.First(&record, "name = ?", name).Error != nil {
 		res.InternalErr(ctx)
 		return
 	}
@@ -74,7 +74,7 @@ func (*controller) PutRecord(ctx *gin.Context) {
 		return
 	}
 	var storedRecord *record
-	if DB.First(&storedRecord, data.Name).Error == nil {
+	if DB.First(&storedRecord, "name = ?", data.Name).Error == nil {
 		if string(bytes) != storedRecord.Passphrase {
 			res.ParamErrM(ctx, "Passphrase is incorrect")
 			return
