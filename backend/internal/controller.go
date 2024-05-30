@@ -33,10 +33,7 @@ func (*controller) GetRecord(ctx *gin.Context) {
 
 	// 查询记录
 	var record *record
-	if DB.First(&record, "name = ?", name).Error != nil {
-		res.InternalErr(ctx)
-		return
-	}
+	DB.First(&record, "name = ?", name)
 
 	// 返回记录
 	res.Success(ctx, record)
