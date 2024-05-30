@@ -74,5 +74,5 @@ func (*controller) PutRecord(ctx *gin.Context) {
 		return
 	}
 
-	res.Success(ctx, record)
+	res.Success(ctx, nil)
 }
