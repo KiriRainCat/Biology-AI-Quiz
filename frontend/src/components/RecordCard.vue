@@ -8,8 +8,8 @@ defineProps({ record: Object as PropType<Record> });
 <template>
   <var-paper elevation="1" radius="6" class="flex gap-6 p-3 bg-cyan-50">
     <div>{{ record!.name }}</div>
-    <div>{{ record!.accuracy * 100 }}%</div>
-    <div>{{ record!.time_taken }}s</div>
+    <div>{{ (record!.accuracy * 100).toFixed(0) }}%</div>
+    <div>{{ record!.time_taken.toFixed(1) }}s</div>
     <div>{{ new Date(record!.updated_at!).toLocaleString() }}</div>
   </var-paper>
 </template>
