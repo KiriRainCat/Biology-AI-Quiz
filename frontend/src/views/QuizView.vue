@@ -6,7 +6,7 @@
       <template #default>
         <p>Please enter your name/net-name/nickname to save your score to the leaderboard:</p>
         <var-input v-model="form.name" autofocus placeholder="Name"></var-input>
-        <var-input v-model="form.passphrase" placeholder="Passphrase"></var-input>
+        <var-input v-model="form.passphrase" type="password" placeholder="Passphrase"></var-input>
 
         <var-button type="success" @click="() => quiz.uploadRecord(form.name, form.passphrase)" class="mt-5 w-full h-10">Save</var-button>
       </template>
