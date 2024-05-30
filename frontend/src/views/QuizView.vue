@@ -1,14 +1,53 @@
+<script setup lang="ts">
+import RecordCard from "@/components/RecordCard.vue";
+import { getRecord } from "@/pkg/services/api";
+import type { Record } from "@/pkg/services/api_types";
+import { QuizController, COUNTDOWN_DURATION } from "@/pkg/services/quiz_logic";
+import { Dialog } from "@varlet/ui";
+import { onMounted, reactive, ref } from "vue";
+
+let initialized = ref(false);
+let quiz = ref(new QuizController());
+
+let prevRecord = ref<Record>();
+
+onMounted(async () => {
+  if (form.name && form.name.length > 0) getRecord(form.name).then((r) => (prevRecord.value = r));
+
+  const isRetainedFromLocalStorage = await quiz.value.init();
+  initialized.value = true;
+
+  Dialog({
+    title: `Quiz ${isRetainedFromLocalStorage ? "Retained" : "Generated"}`,
+    message: "Ready to start? Let's go!!!",
+    cancelButton: false,
+    confirmButtonText: "Start!",
+    onConfirm: () => quiz.value.startCountdown(),
+    closeOnClickOverlay: false,
+    closeOnKeyEscape: false,
+  });
+});
+
+let form = reactive({ name: localStorage.getItem("name") || "", passphrase: localStorage.getItem("passphrase") || "" });
+</script>
+
 <template>
   <div>
     <!-- 完成 quiz 时，询问用户名的对话框 -->
     <var-dialog :show="quiz.showRecordNameDialog" :cancel-button="false" :confirm-button="false" width="360">
       <template #title>Saving to Leaderboard</template>
       <template #default>
+        <div v-if="prevRecord">
+          <div>Previous Record</div>
+          <RecordCard :record="prevRecord" />
+        </div>
+
         <p>Please enter your name/net-name/nickname to save your score to the leaderboard:</p>
         <var-input v-model="form.name" autofocus placeholder="Name"></var-input>
         <var-input v-model="form.passphrase" type="password" placeholder="Passphrase"></var-input>
 
         <var-button type="success" @click="() => quiz.uploadRecord(form.name, form.passphrase)" class="mt-5 w-full h-10">Save</var-button>
+        <var-button type="warning" @click="quiz.goToResult" class="mt-2 w-full h-10">Skip</var-button>
       </template>
     </var-dialog>
 
@@ -50,29 +89,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { QuizController, COUNTDOWN_DURATION } from "@/pkg/services/quiz_logic";
-import { Dialog } from "@varlet/ui";
-import { onMounted, reactive, ref } from "vue";
-
-let initialized = ref(false);
-let quiz = ref(new QuizController());
-
-onMounted(async () => {
-  const isRetainedFromLocalStorage = await quiz.value.init();
-  initialized.value = true;
-
-  Dialog({
-    title: `Quiz ${isRetainedFromLocalStorage ? "Retained" : "Generated"}`,
-    message: "Ready to start? Let's go!!!",
-    cancelButton: false,
-    confirmButtonText: "Start!",
-    onConfirm: () => quiz.value.startCountdown(),
-    closeOnClickOverlay: false,
-    closeOnKeyEscape: false,
-  });
-});
-
-let form = reactive({ name: localStorage.getItem("name") || "", passphrase: localStorage.getItem("passphrase") || "" });
-</script>

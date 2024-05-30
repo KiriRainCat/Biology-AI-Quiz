@@ -64,7 +64,7 @@ export class QuizController {
     this.timer = setInterval(() => {
       if (this.countdown <= 0) {
         clearInterval(this.timer);
-        this.nextQuestion();
+        this.nextQuestion(-1);
         return;
       }
 
@@ -76,15 +76,13 @@ export class QuizController {
    * 提交答案，转至下一题
    * @param selectedOptionIdx 选项索引
    */
-  public nextQuestion(selectedOptionIdx?: number) {
-    if (selectedOptionIdx != undefined) {
-      // 记录答案
-      this.selectedOptions[this.currentQuestionIndex] = selectedOptionIdx;
-      localStorage.setItem("selectedOptions", JSON.stringify(this.selectedOptions));
+  public nextQuestion(selectedOptionIdx: number) {
+    // 记录答案
+    this.selectedOptions[this.currentQuestionIndex] = selectedOptionIdx;
+    localStorage.setItem("selectedOptions", JSON.stringify(this.selectedOptions));
 
-      // 判断答案是否正确
-      if (selectedOptionIdx == this.questions[this.currentQuestionIndex].answer) this.numOfCorrect++;
-    }
+    // 判断答案是否正确
+    if (selectedOptionIdx == this.questions[this.currentQuestionIndex].answer) this.numOfCorrect++;
 
     // 判断是否还有题目，无题则结束
     if (this.currentQuestionIndex >= this.questions.length - 1) {
@@ -122,8 +120,12 @@ export class QuizController {
       localStorage.setItem("passphrase", passphrase);
 
       Snackbar.success("Record uploaded successfully!");
-      this.showRecordNameDialog = false;
-      router.push("/result");
+      this.goToResult();
     }
+  }
+
+  public goToResult() {
+    this.showRecordNameDialog = false;
+    router.push("/result");
   }
 }

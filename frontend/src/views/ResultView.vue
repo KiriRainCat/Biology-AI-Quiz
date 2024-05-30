@@ -6,11 +6,24 @@ const questions = ref<Question[]>(JSON.parse(localStorage.getItem("prevQuestions
 const selectedOptions = ref<number[]>(JSON.parse(localStorage.getItem("selectedOptions") ?? "[]"));
 
 const currentIdx = ref(0);
+
+const colorClasses = ["bg-white", "bg-green-300", "bg-red-300"];
+function computeColorClass(i: number): string {
+  const answer = questions.value[currentIdx.value].answer;
+  if (i == answer) return colorClasses[1];
+
+  const selected = selectedOptions.value[currentIdx.value];
+  if (selected == i && selected != answer) return colorClasses[2];
+  return colorClasses[0];
+}
 </script>
 
 <template>
   <div class="flex h-screen items-center justify-center bg-gray-100">
     <div class="bg-white flex-none container relative overflow-hidden shadow-lg rounded-lg px-12 py-6">
+      <!-- 返回按钮 -->
+      <var-button text round @click="$router.push('/')" class="text-red-300 absolute top-2.5 right-2.5 w-8 h-8">×</var-button>
+
       <div class="relative z-20 mt-8">
         <!-- 问题 -->
         <div class="rounded-lg bg-gray-100 p-2 mt-5 neo-morph-1 text-center font-bold">
@@ -20,12 +33,7 @@ const currentIdx = ref(0);
         <!-- 选项 -->
         <div class="mt-8">
           <div class="option" v-for="(option, i) in questions[currentIdx].choices">
-            <div
-              class="rounded-lg p-3 w-ful"
-              :class="`${i == questions[currentIdx].answer ? 'bg-green-300' : i == selectedOptions[i] && questions[currentIdx].answer != selectedOptions[i] ? 'bg-red-300' : 'bg-white'}`"
-            >
-              {{ option }}
-            </div>
+            <div class="rounded-lg p-3 w-ful" :class="computeColorClass(i)">{{ option }}</div>
           </div>
         </div>
 

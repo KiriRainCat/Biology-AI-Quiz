@@ -38,6 +38,10 @@ api.interceptors.response.use(
 
 export default api;
 
+async function getRecord(name: string): Promise<Record | undefined> {
+  return (await api.get(`/record/${name}`)).data["data"];
+}
+
 async function getRecords(): Promise<Record[]> {
   let list: Record[] = (await api.get("/records")).data["data"];
   list.sort((a, b) => (a.accuracy > b.accuracy && a.time_taken < b.time_taken ? -1 : 1));
@@ -54,4 +58,4 @@ async function generateQuiz(): Promise<Question[]> {
   return (await api.get("/generate-quiz")).data["data"];
 }
 
-export { getRecords, addRecord, generateQuiz };
+export { getRecord, getRecords, addRecord, generateQuiz };
