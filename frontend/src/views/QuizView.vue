@@ -36,7 +36,7 @@
           <!-- 选项 -->
           <div class="mt-8">
             <div class="option" v-for="(option, i) in quiz.currentQuestion.choices" @click="quiz.nextQuestion(i)">
-              <div class="rounded-lg p-3 w-full h-12 hover:bg-gray-50 bg-white">{{ option }}</div>
+              <div class="rounded-lg p-3 w-full hover:bg-gray-50 bg-white">{{ option }}</div>
             </div>
           </div>
 
@@ -69,6 +69,8 @@ onMounted(async () => {
     cancelButton: false,
     confirmButtonText: "Start!",
     onConfirm: () => quiz.value.startCountdown(),
+    closeOnClickOverlay: false,
+    closeOnKeyEscape: false,
   });
 });
 
