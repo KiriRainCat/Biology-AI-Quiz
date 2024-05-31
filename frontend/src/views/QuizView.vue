@@ -50,7 +50,7 @@ let form = reactive({ name: localStorage.getItem("name") || "", passphrase: loca
         <var-input v-model="form.passphrase" type="password" placeholder="Passphrase"></var-input>
 
         <var-button type="success" @click="() => quiz.uploadRecord(form.name, form.passphrase)" class="mt-5 w-full h-10">Save</var-button>
-        <var-button type="warning" @click="quiz.goToResult" class="mt-2 w-full h-10">Skip</var-button>
+        <var-button type="warning" @click="() => quiz.goToResult()" class="mt-2 w-full h-10">Skip</var-button>
       </template>
     </var-dialog>
 
