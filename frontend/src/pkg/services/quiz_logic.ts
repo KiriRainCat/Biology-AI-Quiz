@@ -3,7 +3,7 @@ import router from "../router";
 import { addRecord, generateQuiz } from "./api";
 import type { Question } from "./api_types";
 
-export const COUNTDOWN_DURATION = (15 * 1000) / 60;
+export const COUNTDOWN_DURATION = (36 * 1000) / 60;
 
 export class QuizController {
   questions: Question[] = [];
