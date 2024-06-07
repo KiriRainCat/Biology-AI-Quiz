@@ -34,6 +34,7 @@ func (*controller) GetRecord(ctx *gin.Context) {
 	// 查询记录
 	var record *record
 	DB.First(&record, "name = ?", name)
+	record.Passphrase = ""
 
 	// 返回记录
 	res.Success(ctx, record)
@@ -65,14 +66,9 @@ func (*controller) PutRecord(ctx *gin.Context) {
 	}
 
 	// 校验 passphrase
-	bytes, err := bcrypt.GenerateFromPassword([]byte(data.Passphrase+config.Config.Server.EncryptSalt), bcrypt.MinCost)
-	if err != nil {
-		res.InternalErr(ctx)
-		return
-	}
 	var storedRecord *record
 	if DB.First(&storedRecord, "name = ?", data.Name).Error == nil {
-		if string(bytes) != storedRecord.Passphrase {
+		if bcrypt.CompareHashAndPassword([]byte(storedRecord.Passphrase), []byte(data.Passphrase+config.Config.Server.EncryptSalt)) != nil && storedRecord.Passphrase != "" {
 			res.ParamErrM(ctx, "Passphrase is incorrect")
 			return
 		}
@@ -80,11 +76,22 @@ func (*controller) PutRecord(ctx *gin.Context) {
 
 	// 保存记录
 	record := &record{
-		Name:       data.Name,
-		Accuracy:   data.Accuracy,
-		Passphrase: string(bytes),
-		TimeTaken:  data.TimeTaken,
+		Name:      data.Name,
+		Accuracy:  data.Accuracy,
+		TimeTaken: data.TimeTaken,
 	}
+
+	if storedRecord == nil {
+		bytes, err := bcrypt.GenerateFromPassword([]byte(data.Passphrase+config.Config.Server.EncryptSalt), bcrypt.MinCost)
+		if err != nil {
+			res.InternalErr(ctx)
+			return
+		}
+		record.Passphrase = string(bytes)
+	} else {
+		record.Passphrase = storedRecord.Passphrase
+	}
+
 	if DB.Save(&record).Error != nil {
 		res.InternalErr(ctx)
 		return
